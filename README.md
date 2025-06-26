@@ -73,21 +73,37 @@ pip install -r requirements.txt
 
 ---
 
-## 🧪 Quick Start
+### 🧪 Quick Start
 
-### A. Run From the Command Line
+### A. Run From the Command Line (CLI)
 
 ```bash
 python app/query_and_answer.py
 ```
 
-### B. Launch Streamlit UI
+This allows you to interact with the legal assistant in the terminal.
+
+---
+
+### B. Launch API and UI
+
+#### 1. Start the FastAPI backend (for LLM-powered legal QA)
+
+```bash
+uvicorn app.main:app --reload
+```
+
+This runs the API server at http://localhost:8000 — used by the frontend.
+
+#### 2. Launch the Streamlit UI
+
+In a separate terminal:
 
 ```bash
 streamlit run frontend/streamlit_app.py
 ```
 
-You can now interact with the assistant via your browser (typically at http://localhost:8501).
+The UI will open in your browser (typically at http://localhost:8501) and let you chat with the assistant using a clean interface.
 
 ---
 
@@ -138,7 +154,7 @@ Crafted with purpose to democratize legal access in Ethiopia. This project is a 
 
   For questions, issues, or ideas:
   - GitHub Issues: [Open an issue](https://github.com/Abenezer-Baheru/Legal_AI_Assistant/issues)
-  - Contact: abenezer7baheru.com
+  - Contact: abenezer7baheru@gmail.com
 
 ---
 
