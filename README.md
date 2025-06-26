@@ -158,5 +158,18 @@ Crafted with purpose to democratize legal access in Ethiopia. This project is a 
 
 ---
 
+## 📖 Citation
+
+If you use or reference this project in your work, please cite the ReadyTensor publication:
+
+**Baheru, A.** (2025). *Legal AI Assistant for Ethiopia: Rooted in the Constitution, Civil and Criminal Codes*. ReadyTensor.  
+Available at: [https://app.readytensor.ai/publications/pHZqtw8lp7Ul](https://app.readytensor.ai/publications/pHZqtw8lp7Ul)
+
+📝 For academic use  
+📚 For legal education  
+🌍 For civic and AI research impact
+
+---
+
 ## 👤 Author
   **Abenezer Baheru**  
