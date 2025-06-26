@@ -152,9 +152,10 @@ Crafted with purpose to democratize legal access in Ethiopia. This project is a 
 
 ## 🛠 Support
 
-  For questions, issues, or ideas:
-  - GitHub Issues: [Open an issue](https://github.com/Abenezer-Baheru/Legal_AI_Assistant/issues)
-  - Contact: abenezer7baheru@gmail.com
+For questions, issues, or ideas:
+
+- GitHub Issues: [Open an issue](https://github.com/Abenezer-Baheru/Legal_AI_Assistant/issues)
+- Contact: abenezer7baheru@gmail.com
 
 ---
 
@@ -162,7 +163,7 @@ Crafted with purpose to democratize legal access in Ethiopia. This project is a 
 
 If you use or reference this project in your work, please cite the ReadyTensor publication:
 
-**Baheru, A.** (2025). *Legal AI Assistant for Ethiopia: Rooted in the Constitution, Civil and Criminal Codes*. ReadyTensor.  
+**Abenezer Baheru** (2025). _Legal AI Assistant for Ethiopia: Rooted in the Constitution, Civil and Criminal Codes_. ReadyTensor.  
 Available at: [https://app.readytensor.ai/publications/pHZqtw8lp7Ul](https://app.readytensor.ai/publications/pHZqtw8lp7Ul)
 
 📝 For academic use  
@@ -172,4 +173,5 @@ Available at: [https://app.readytensor.ai/publications/pHZqtw8lp7Ul](https://app
 ---
 
 ## 👤 Author
-  **Abenezer Baheru**  
+
+**Abenezer Baheru**
