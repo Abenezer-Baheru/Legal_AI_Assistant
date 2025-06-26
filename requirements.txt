@@ -8,3 +8,6 @@ PyPDF2
 langchain
 groq
 langchain-groq
+fastapi 
+uvicorn[standard]
+streamlit
