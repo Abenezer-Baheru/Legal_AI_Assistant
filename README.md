@@ -1,33 +1,66 @@
-# Legal AI Assistant for Ethiopia: Rooted in the Constitution, Civil and Criminal Codes
+# 🇪🇹 Legal AI Assistant for Ethiopia  
+**Rooted in the Constitution, Civil and Criminal Codes**
 
-A conversational AI system designed to make Ethiopian law accessible, explainable, and actionable. Built using modern retrieval-augmented generation (RAG) techniques and grounded in Ethiopia’s Constitution, Civil Code, and Criminal Code, the assistant enables users to ask natural language legal questions and receive clear, article-based answers.
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![LangChain](https://img.shields.io/badge/LangChain-Enabled-purple.svg)
+
+A curriculum-aware, retrieval-augmented AI system designed to make Ethiopian law accessible, explainable, and actionable. Built with modular orchestration, robust fallback handling, and grounded in Ethiopia’s Constitution, Civil Code, and Criminal Code, this assistant enables users to ask natural language legal questions and receive clear, article-based answers.
 
 ---
 
 ## 🚀 Features
 
-- ⚖️ Understands and explains articles from Ethiopia’s **Constitution**, **Civil Code**, and **Criminal Code**
-- 🧠 Answers freeform user questions with grounded legal citations
-- 🧾 Interprets real-life criminal case scenarios and outlines potential consequences
-- 💡 Handles irrelevant or vague queries with graceful fallbacks
-- 💬 Offers both **CLI** and **Streamlit UI** for interaction
+- ⚖️ Explains articles from Ethiopia’s **Constitution**, **Civil Code**, and **Criminal Code**
+- 🧠 Answers freeform legal questions with grounded citations and fallback logic
+- 🧾 Interprets real-world criminal scenarios and outlines legal consequences
+- 🔍 Modular agents for retrieval, reasoning, and fallback handling
+- 🧪 CLI with debug blocks and context tracing for developer insight
+- 🌐 Streamlit UI for clean, user-friendly interaction
+- ✅ Unit tests for core modules and CLI workflows
 
 ---
 
-## 🗂 Repository Structure
+## 🔍 Scope Summary
+
+Supports:
+- Penal consequences
+- Constitutional rights
+- Civil obligations
+
+Not yet supported:
+- Case law and judicial precedents
+- Multilingual queries (Amharic support in roadmap)
+
+➡️ [See full scope and examples](docs/scope.md)
+
+---
+
+## 🧱 Repository Structure
 
 ```
 ├── app/
 │   ├── extract_and_store.py     # Builds ChromaDB vector store from PDF law documents
 │   ├── query_and_answer.py      # CLI interface to test the system
 │   ├── qa_engine.py             # Core retrieval, prompt assembly, and LLM reasoning
-│   └── main.py                  # FastAPI app backend
+│   ├── main.py                  # FastAPI backend
+│   ├── __init__.py
+│   └── config.py                # Centralized configuration
+
+├── docs/
+│   └── scope.md                 # Project scope and design rationale
 
 ├── frontend/
+│   ├── __init__.py
 │   └── streamlit_app.py         # Streamlit-based user interface
 
 ├── legal_db/                    # Precomputed ChromaDB vector artifacts (29MB)
 │   └── index files and embeddings
+
+├── tests/
+│   ├── __init__.py
+│   ├── test_extract_and_store.py
+│   └── test_query_and_answer.py
 
 ├── data/                        # Legal PDF documents (publicly sourced)
 │   ├── Ethiopia_Constitution.pdf
@@ -44,6 +77,9 @@ A conversational AI system designed to make Ethiopian law accessible, explainabl
 
 ├── requirements.txt             # Installation requirements
 ├── .env                         # API keys and environment variables
+├── .env.example                 # Template for environment setup
+├── .gitignore                   # Git exclusions
+├── LICENSE                      # MIT License
 ├── README.md                    # Project documentation
 ```
 
@@ -73,7 +109,7 @@ pip install -r requirements.txt
 
 ---
 
-### 🧪 Quick Start
+## 🧪 Quick Start
 
 ### A. Run From the Command Line (CLI)
 
@@ -81,97 +117,101 @@ pip install -r requirements.txt
 python app/query_and_answer.py
 ```
 
-This allows you to interact with the legal assistant in the terminal.
+Interact with the assistant via terminal, with debug prints and fallback tracing.
 
 ---
 
 ### B. Launch API and UI
 
-#### 1. Start the FastAPI backend (for LLM-powered legal QA)
+#### 1. Start FastAPI backend
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-This runs the API server at http://localhost:8000 — used by the frontend.
+Runs the API server at `http://localhost:8000`.
 
-#### 2. Launch the Streamlit UI
-
-In a separate terminal:
+#### 2. Launch Streamlit UI
 
 ```bash
 streamlit run frontend/streamlit_app.py
 ```
 
-The UI will open in your browser (typically at http://localhost:8501) and let you chat with the assistant using a clean interface.
+Opens the assistant in your browser at `http://localhost:8501`.
 
 ---
 
 ## 🔗 Technologies
 
-- **LLM Inference**: LLaMA 3 (8B) via `langchain_groq.ChatGroq`
-- **Embeddings**: `all-MiniLM-L6-v2`
-- **Retrieval**: ChromaDB
-- **Frameworks**: LangChain, FastAPI, Streamlit
+| Component        | Stack                                      |
+|------------------|---------------------------------------------|
+| LLM Inference    | LLaMA 3 (8B) via `langchain_groq.ChatGroq` |
+| Embeddings       | `all-MiniLM-L6-v2`                         |
+| Retrieval        | ChromaDB                                   |
+| Orchestration    | LangChain + LangGraph                      |
+| Interfaces       | FastAPI, Streamlit, CLI                    |
+| Testing          | Pytest                                     |
 
 ---
 
 ## 📚 Legal Sources
 
-All legal texts are publicly accessible and sourced from:
+All texts are publicly sourced from:
 
 - **FDRE Constitution of Ethiopia (1995)**
 - **Ethiopian Civil Code (1960)**
-- **Ethiopian Criminal Code (2004)**
-
-Main source: [LawEthiopia.com](https://www.lawethiopia.com/)
+- **Ethiopian Criminal Code (2004)**  
+Source: [LawEthiopia.com](https://www.lawethiopia.com/)
 
 ---
 
-## 🛣️ Future Plans
+## 🛣️ Roadmap
 
 - 🌍 Amharic language support
 - 📜 Proclamation and precedent interpretation
 - 🧪 Sentencing benchmark evaluation
-- 👩🏽‍🏫 Educational walkthrough mode for training
-- 🔐 Public/role-based deployments
+- 👩🏽‍🏫 Educational walkthrough mode
+- 🔐 Role-based deployments and public access
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you’d like to change.  
+We value clarity, modularity, and curriculum alignment — feel free to suggest improvements or new features.
 
 ---
 
 ## 🧾 License
 
-This project is distributed under the **MIT License** — free to use, share, and build upon with attribution.
+Distributed under the **MIT License** — free to use, modify, and build upon with attribution.
 
 ---
 
 ## 🙌 Acknowledgments
 
-Crafted with purpose to democratize legal access in Ethiopia. This project is a step toward making statutory law more transparent, understandable, and empowering for all citizens.
+Built to democratize legal access in Ethiopia. This project is a step toward making statutory law transparent, understandable, and empowering for all.
 
 ---
 
 ## 🛠 Support
 
-For questions, issues, or ideas:
-
-- GitHub Issues: [Open an issue](https://github.com/Abenezer-Baheru/Legal_AI_Assistant/issues)
+- GitHub Issues: [Open an issue](https://github.com/Abenezer-Baheru/Legal_AI_Assistant/issues)  
 - Contact: abenezer7baheru@gmail.com
 
 ---
 
 ## 📖 Citation
 
-If you use or reference this project in your work, please cite the ReadyTensor publication:
+If you use or reference this project:
 
 **Abenezer Baheru** (2025). _Legal AI Assistant for Ethiopia: Rooted in the Constitution, Civil and Criminal Codes_. ReadyTensor.  
-Available at: [https://app.readytensor.ai/publications/pHZqtw8lp7Ul](https://app.readytensor.ai/publications/pHZqtw8lp7Ul)
-
-📝 For academic use  
-📚 For legal education  
-🌍 For civic and AI research impact
+📄 [Publication link](https://app.readytensor.ai/publications/pHZqtw8lp7Ul)
 
 ---
 
 ## 👤 Author
 
 **Abenezer Baheru**
+
+---
