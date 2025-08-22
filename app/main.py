@@ -13,7 +13,6 @@ def ask(req: QueryRequest):
     try:
         response, grouped = ask_question(req.query)
 
-        # Build article references with optional summaries
         references = [
             f"{k} — {v['summary']}" if v["summary"] else k
             for k, v in sorted(
@@ -22,7 +21,13 @@ def ask(req: QueryRequest):
             )
         ]
 
-        return {"response": response, "references": references}
+        return {
+            "response": response,
+            "references": references
+        }
 
     except Exception as e:
-        return {"response": f"⚠️ Internal error: {str(e)}", "references": []}
+        return {
+            "response": f"⚠️ Internal error: {str(e)}",
+            "references": []
+        }
