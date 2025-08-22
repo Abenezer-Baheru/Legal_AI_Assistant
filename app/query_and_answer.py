@@ -8,22 +8,20 @@ from langchain_core.runnables import RunnableMap
 from langchain_core.output_parsers import StrOutputParser
 from langchain.memory import ConversationBufferMemory
 from langchain_huggingface import HuggingFaceEmbeddings
+from app.config import (
+    EMBEDDING_MODEL_NAME, LLM_MODEL_NAME, CHROMA_DB_PATH,
+    COLLECTION_NAME, TOP_K, MAX_CONTEXT_CHARS
+)
 
 # Load environment variables
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
-# Initialize the LLM
-llm = ChatGroq(
-    api_key=api_key,
-    model="llama3-8b-8192",
-    temperature=0.3
-)
-
-# Session memory
+# Initialize LLM and memory
+llm = ChatGroq(api_key=api_key, model=LLM_MODEL_NAME, temperature=0.3)
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
-# Structured conversational prompt
+# Prompt template
 prompt = PromptTemplate(
     input_variables=["context", "question", "chat_history"],
     template="""
@@ -57,13 +55,13 @@ Answer:
 """
 )
 
-# Vector store + embeddings
-embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-client = chromadb.PersistentClient(path="./legal_db")
-collection = client.get_or_create_collection("ethiopian_law")
+# Embeddings and vector store
+embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME)
+client = chromadb.PersistentClient(path=CHROMA_DB_PATH)
+collection = client.get_or_create_collection(COLLECTION_NAME)
 
 # Retrieve relevant context
-def search_legal_docs(query, top_k=5, max_chars=4000):
+def search_legal_docs(query, top_k=TOP_K, max_chars=MAX_CONTEXT_CHARS):
     query_vector = embeddings.embed_query(query)
     results = collection.query(
         query_embeddings=[query_vector],
@@ -80,11 +78,11 @@ def search_legal_docs(query, top_k=5, max_chars=4000):
 
     full_context = "\n\n".join(
         f"{title}\n" + "\n".join(grouped[title]["doc"]) for title in grouped
-    )
+    ).strip()
 
-    return full_context[:max_chars], grouped  # Pass grouped metadata for dynamic display
+    return full_context[:max_chars], grouped
 
-# Build reasoning pipeline
+# Reasoning pipeline
 qa_chain = (
     RunnableMap({
         "context": lambda x: x["context"],
@@ -96,34 +94,14 @@ qa_chain = (
     | StrOutputParser()
 )
 
-# Main loop
-if __name__ == "__main__":
-    print("⚖️  Ethiopian Legal AI Assistant — Ask a legal question in English (type 'exit' to quit)")
-
-    while True:
-        query = input("\n🧑🏽‍⚖️ You: ")
-        if query.strip().lower() in ["exit", "quit"]:
-            print("👋 See you next time — keep building justice-forward tech.")
-            break
-        try:
-            context, grouped_metadata = search_legal_docs(query)
-            chat_history = memory.load_memory_variables({}).get("chat_history", "")
-            response = qa_chain.invoke({
-                "context": context,
-                "question": query,
-                "chat_history": chat_history
-            })
-            memory.save_context({"input": query}, {"output": response})
-
-            print(f"\n📜 Answer:\n{response}")
-
-            if grouped_metadata:
-                print("\n📖 You're referencing the following articles:")
-                for key in sorted(
-                    grouped_metadata.keys(),
-                    key=lambda x: int(re.findall(r'\d+', x)[0]) if re.search(r'\d+', x) else 9999
-                ):
-                    summary = grouped_metadata[key]["summary"]
-                    print(f"• {key}" + (f" — {summary}" if summary else ""))
-        except Exception as e:
-            print(f"\n⚠️ Error: {str(e)}")
+# API callable
+def ask_question(query: str):
+    context, grouped = search_legal_docs(query)
+    chat_history = memory.load_memory_variables({}).get("chat_history", "")
+    response = qa_chain.invoke({
+        "context": context,
+        "question": query,
+        "chat_history": chat_history
+    })
+    memory.save_context({"input": query}, {"output": response})
+    return response, grouped
